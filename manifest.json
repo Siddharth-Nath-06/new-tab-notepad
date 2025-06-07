@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "Brave Notepad",
+    "version": "1.2.25",
+    "description": "Adds a persistent notepad to your Brave new tab page",
+    "author": "Sin Studios",
+    "permissions": [
+        "contextMenus"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "host_permissions": [
+       "chrome://newtab/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "chrome://newtab/*"
+            ],
+            "js": ["notepad.js"],
+            "run_at": "document_idle"
+        }
+    ],
+    "icons": {
+        "16": "icons/notepad-16.png",
+        "64": "icons/notepad-64.png",
+        "128": "icons/notepad-128.png"
+    }
+}

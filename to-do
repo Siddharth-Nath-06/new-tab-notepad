@@ -1,0 +1,11 @@
+> Undo broken (deletednotes array does not store removed notes properly,and note gets lost from undo menu, but apparently not deleted? delete button seems to not have worked and adds note back automatically in another added tab or reload)
+
+> Resize the notes
+
+> add reordering of z-index from note-to-note if possible
+
+> add minimize system if possible
+
+> change note to minimized if window small
+
+> window size compatibility (fix height too)

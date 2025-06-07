@@ -1,0 +1,59 @@
+<div id="notepad" style="height: 30em; width: 30vw; min-width: 20em; position: absolute; top: 0; left: 0; z-index: 10;">
+    <div class="titlebar"
+        style="display: flex; flex-direction: row; align-items: center; width: 100%; height:2em; align-content: center; background-color: black; color: white; font-family:monospace; font-size: 1.2em; font-weight: bold; user-select:none;">
+        <span
+            style="visibility: hidden; text-align: center; top:-2em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute;margin-left: 0.5em; padding: 0.5em"
+            class="titletooltip">Click to edit title</span>
+        <div class="title" contenteditable="" spellcheck="false"
+            style="margin-left: 0.5em; max-width: 23em; padding: 0em 0.5em;">Notepad</div>
+        <span class="toolbar" style="position:relative; user-select:none; margin-left: auto; display: flex;">
+            <span class="tooltipmode"
+                style="visibility: hidden; text-align: center; width:14em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">Toggle
+                Dark/Light Mode</span>
+            <span class="modeswitch" style="position: relative; padding-right: 0.75em; cursor: pointer;">
+                <span class="lightmode" style="display: none;">☀</span>
+                <span class="darkmode" style="display: block;">☾</span>
+            </span>
+            <span class="opacitycontrols"
+                style="position: relative; padding-right: 0.5em; cursor: pointer; display: flex; align-items: center;">
+                <span class="tooltipopup"
+                    style="visibility: hidden; text-align: center; width:10em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">
+                    Increase Opacity</span>
+                <svg class="up" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path
+                        d="M11.293 7.293a1 1 0 0 1 1.32 -.083l.094 .083l6 6l.083 .094l.054 .077l.054 .096l.017 .036l.027 .067l.032 .108l.01 .053l.01 .06l.004 .057l.002 .059l-.002 .059l-.005 .058l-.009 .06l-.01 .052l-.032 .108l-.027 .067l-.07 .132l-.065 .09l-.073 .081l-.094 .083l-.077 .054l-.096 .054l-.036 .017l-.067 .027l-.108 .032l-.053 .01l-.06 .01l-.057 .004l-.059 .002h-12c-.852 0 -1.297 -.986 -.783 -1.623l.076 -.084l6 -6z">
+                    </path>
+                </svg>
+                <span class="tooltipopdefault"
+                    style="visibility: hidden; text-align: center; width:10em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">
+                    Default Opacity</span>
+                <svg class="default" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path
+                        d="M13.905 2.923l.098 .135l4.92 7.306a7.566 7.566 0 0 1 1.043 3.167l.024 .326c.007 .047 .01 .094 .01 .143l-.002 .06c.056 2.3 -.944 4.582 -2.87 6.14c-2.969 2.402 -7.286 2.402 -10.255 0c-1.904 -1.54 -2.904 -3.787 -2.865 -6.071a1.052 1.052 0 0 1 .013 -.333a7.66 7.66 0 0 1 .913 -3.176l.172 -.302l4.893 -7.26c.185 -.275 .426 -.509 .709 -.686c1.055 -.66 2.446 -.413 3.197 .55zm-2.06 1.107l-.077 .038l-.041 .03l-.037 .036l-.033 .042l-4.863 7.214a5.607 5.607 0 0 0 -.651 1.61h11.723a5.444 5.444 0 0 0 -.49 -1.313l-.141 -.251l-4.891 -7.261a.428 .428 0 0 0 -.5 -.145z">
+                    </path>
+                </svg>
+                <span class="tooltipopdown"
+                    style="visibility: hidden; text-align: center; width:10em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">
+                    Decrease Opacity</span>
+                <svg class="down" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path
+                        d="M18 9c.852 0 1.297 .986 .783 1.623l-.076 .084l-6 6a1 1 0 0 1 -1.32 .083l-.094 -.083l-6 -6l-.083 -.094l-.054 -.077l-.054 -.096l-.017 -.036l-.027 -.067l-.032 -.108l-.01 -.053l-.01 -.06l-.004 -.057v-.118l.005 -.058l.009 -.06l.01 -.052l.032 -.108l.027 -.067l.07 -.132l.065 -.09l.073 -.081l.094 -.083l.077 -.054l.096 -.054l.036 -.017l.067 -.027l.108 -.032l.053 -.01l.06 -.01l.057 -.004l12.059 -.002z">
+                    </path>
+                </svg>
+            </span>
+            <span
+                style="visibility:hidden; text-align: center; width:8em; right:-6em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em"
+                class="exittooltip">Delete Note</span>
+            <span class="exit"
+                style="position:relative; padding-right: 0.5em; cursor:pointer; user-select: none;">[X]</span>
+        </span>
+    </div>
+    <div contenteditable="" placeholder="Write here..." class="note" spellcheck="false"
+        style="overflow-y: auto; scrollbar-width: thin; scrollbar-color: black hsl(0, 0%, 30%); outline: none; resize: none; width: 100%; height: 94.44%; background-color: hsla(0,0%,10%, 0.75); color: white; font-family:monospace; font-size: 1.2em; padding:1.2em;">
+    </div>
