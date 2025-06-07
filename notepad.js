@@ -1,9 +1,7 @@
-const parentproto = document.createElement('div');
 const notepadcontainer = document.getElementsByTagName('body')[0];
-const prototype = parentproto.firstChild;
+const parentproto = document.createElement('div');
 var deletednotes = [];
 var notes = [];
-
 parentproto.innerHTML =
     `<div id="notepad" style="height: 30em; width: 30vw; min-width: 20em; position: absolute; top: 0; left: 0; z-index: 10;">
     <div class="titlebar"
@@ -70,6 +68,7 @@ parentproto.innerHTML =
     <div contenteditable="" placeholder="Write here..." class="note" spellcheck="false"
         style="overflow-y: auto; scrollbar-width: thin; scrollbar-color: black hsl(0, 0%, 30%); outline: none; resize: none; width: 100%; height: 94.44%; background-color: hsla(0,0%,10%, 0.8); color: white; font-family:monospace; font-size: 1.2em; padding:1.2em;"></div>`;
 
+const prototype = parentproto.firstChild;
 
 try {
     chrome.runtime.onMessage.addListener((request) => {
