@@ -14,6 +14,9 @@ Built for quick jotting, daily plans, or random thoughts — each note panel sta
 - 🔒 **Privacy-First** — No internet access, no tracking, no sync — everything stays on your machine.
 - 🔗 **Clickable Links** — URLs in your notes are automatically clickable for easy idea gathering and quick access.
 
+## Screenshots
+![screenshot of the notepad extension in the Brave browser](images/image.png)
+
 ## Getting Started
 To Install and Use :
 1. Enable the <ins>#extensions-on-chrome-urls</ins> &nbsp;in the **chrome://flags** page in a chromium browser.
