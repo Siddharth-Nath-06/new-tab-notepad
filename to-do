@@ -1,4 +1,8 @@
-> Undo broken (deletednotes array does not store removed notes properly,and note gets lost from undo menu, but apparently not deleted? delete button seems to not have worked and adds note back automatically in another added tab or reload)
+> Undo broken
+
+> force fontsize in notepad
+
+> tooltip for links
 
 > Resize the notes
 
