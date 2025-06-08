@@ -32,4 +32,4 @@ For **Released** versions, see <a href="https://github.com/Siddharth-Nath-06/new
 <ins>**Icons:**</ins> &nbsp; <a href="https://www.flaticon.com/free-icons/notepad" title="notepad icons">Notepad icons created by vectorspoint - Flaticon</a>
 
 ## License
-This project is Licensed under the **GNU General Public License v3.0** License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is Licensed under the **GNU General Public License v3.0** - see the [LICENSE.md](LICENSE.md) file for details.
