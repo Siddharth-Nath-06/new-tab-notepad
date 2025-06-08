@@ -23,6 +23,11 @@ To Install and Use :
 5. It is recommended to pin the icon from the extensions menu in your browser for a smooth experience. On clicking the icon when in a New Tab page, you can find the options to Add Notes, Sync Themes, etc.
 6. **That’s it!** Enjoy using your new Notepad — explore, experiment, and make it your own!
 
+## Version
+Version of *main* in repository: v1.0.0
+</br>
+For **Released** versions, see <a href="https://github.com/Siddharth-Nath-06/new-tab-notepad/releases">Releases</a>.
+
 ## Credits
 <ins>**Icons:**</ins> &nbsp; <a href="https://www.flaticon.com/free-icons/notepad" title="notepad icons">Notepad icons created by vectorspoint - Flaticon</a>
 
