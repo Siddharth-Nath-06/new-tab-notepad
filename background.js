@@ -1,5 +1,4 @@
-// background.js
-
+// Event listener for clicks on context menu
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "addnote") {
         chrome.tabs
@@ -56,6 +55,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     }
 });
 
+// Listener for message from content script
 chrome.runtime.onMessage.addListener((request, sendResponse) => {
     if (request.action === "undoDelete") {
         chrome.contextMenus.update("undodeleted", { enabled: request.enabled });
@@ -64,6 +64,7 @@ chrome.runtime.onMessage.addListener((request, sendResponse) => {
     }
 });
 
+// Add context menu Items
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.removeAll();
     chrome.contextMenus.create({
