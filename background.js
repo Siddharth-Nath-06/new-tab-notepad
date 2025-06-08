@@ -90,4 +90,10 @@ chrome.runtime.onInstalled.addListener(() => {
         enabled: false,
         contexts: ["action"],
     });
+    chrome.contextMenus.create({
+        id: "creditforicon",
+        title: "Notepad icons by vectorspoint - Flaticon",
+        enabled: false,
+        contexts: ["action"]
+    })
 });
