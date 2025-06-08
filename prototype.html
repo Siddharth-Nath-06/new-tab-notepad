@@ -2,22 +2,33 @@
     <div class="titlebar"
         style="display: flex; flex-direction: row; align-items: center; width: 100%; height:2em; align-content: center; background-color: black; color: white; font-family:monospace; font-size: 1.2em; font-weight: bold; user-select:none;">
         <span
-            style="visibility: hidden; text-align: center; top:-2em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute;margin-left: 0.5em; padding: 0.5em"
+            style="display:none; text-align: center; top:-2em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute;margin-left: 0.5em; padding: 0.5em"
             class="titletooltip">Click to edit title</span>
         <div class="title" contenteditable="" spellcheck="false"
             style="margin-left: 0.5em; max-width: 23em; padding: 0em 0.5em;">Notepad</div>
         <span class="toolbar" style="position:relative; user-select:none; margin-left: auto; display: flex;">
-            <span class="tooltipmode"
-                style="visibility: hidden; text-align: center; width:14em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">Toggle
-                Dark/Light Mode</span>
             <span class="modeswitch" style="position: relative; padding-right: 0.75em; cursor: pointer;">
-                <span class="lightmode" style="display: none;">☀</span>
-                <span class="darkmode" style="display: block;">☾</span>
+                <span class="tooltiplightmode"
+                    style="display:none; text-align: center; width:13em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">Switch
+                    to light-mode</span>
+                <span class="lightmode" style="display: block; padding-right: 0.06em;">☀</span>
+                <span class="tooltipdarkmode"
+                    style="display:none; text-align: center; width:12.5em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">Switch
+                    to dark-mode</span>
+                <span class="darkmode" style="display: none; padding-right: 0.34em;">☾</span>
+                <span class="tooltipcontrastmode1"
+                    style="display:none; text-align: center; width:16em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">Switch
+                    to contrast-mode-1</span>
+                <span class="contrastmode1" style="display: none;">◐</span>
+                <span class="tooltipcontrastmode2"
+                    style="display:none; text-align: center; width:16em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">Switch
+                    to contrast-mode-2</span>
+                <span class="contrastmode2" style="display: none;">◑</span>
             </span>
             <span class="opacitycontrols"
                 style="position: relative; padding-right: 0.5em; cursor: pointer; display: flex; align-items: center;">
                 <span class="tooltipopup"
-                    style="visibility: hidden; text-align: center; width:10em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">
+                    style="display:none; text-align: center; width:10em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">
                     Increase Opacity</span>
                 <svg class="up" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
                     fill="currentColor">
@@ -27,7 +38,7 @@
                     </path>
                 </svg>
                 <span class="tooltipopdefault"
-                    style="visibility: hidden; text-align: center; width:10em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">
+                    style="display:none; text-align: center; width:10em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">
                     Default Opacity</span>
                 <svg class="default" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
                     fill="currentColor">
@@ -37,7 +48,7 @@
                     </path>
                 </svg>
                 <span class="tooltipopdown"
-                    style="visibility: hidden; text-align: center; width:10em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">
+                    style="display:none; text-align: center; width:10em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em">
                     Decrease Opacity</span>
                 <svg class="down" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
                     fill="currentColor">
@@ -48,12 +59,12 @@
                 </svg>
             </span>
             <span
-                style="visibility:hidden; text-align: center; width:8em; right:-6em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em"
+                style="display:none; text-align: center; width:8em; right:-6em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em"
                 class="exittooltip">Delete Note</span>
             <span class="exit"
                 style="position:relative; padding-right: 0.5em; cursor:pointer; user-select: none;">[X]</span>
         </span>
     </div>
     <div contenteditable="" placeholder="Write here..." class="note" spellcheck="false"
-        style="overflow-y: auto; scrollbar-width: thin; scrollbar-color: black hsl(0, 0%, 30%); outline: none; resize: none; width: 100%; height: 94.44%; background-color: hsla(0,0%,10%, 0.75); color: white; font-family:monospace; font-size: 1.2em; padding:1.2em;">
+        style="overflow-y: auto; scrollbar-width: thin; scrollbar-color: black hsl(0, 0%, 30%); outline: none; resize: none; width: 100%; height: 94.44%; background-color: hsla(0,0%,10%, 0.8); color: white; font-family:monospace; font-size: 1.2em; padding:1.2em;">
     </div>
