@@ -3,7 +3,7 @@ Persistent New Tab Notepad is a minimalist, distraction-free note-taking extensi
 
 Built for quick jotting, daily plans, or random thoughts — each note panel stays exactly where you left it, even after you close your browser. Add, move, delete, or theme your notes with ease.
 
-> ⚠️ Currently only works in Brave and some other chromium-based browsers with an experimental flag enabled. &nbsp;**DOES NOT WORK IN COOGLE CHROME.**
+> ⚠️ Currently only works in Brave and some other chromium-based browsers with an experimental flag enabled. &nbsp;**DOES NOT WORK IN GOOGLE CHROME.**
 
 
 ## Features
