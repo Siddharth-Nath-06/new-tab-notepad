@@ -23,8 +23,8 @@
         }
     ],
     "icons": {
-        "16": "icons/notepad-16.png",
-        "64": "icons/notepad-64.png",
-        "128": "icons/notepad-128.png"
+        "16": "icons-by-vectorspoint-flaticon/notepad-16.png",
+        "64": "icons-by-vectorspoint-flaticon/notepad-64.png",
+        "128": "icons-by-vectorspoint-flaticon/notepad-128.png"
     }
 }
