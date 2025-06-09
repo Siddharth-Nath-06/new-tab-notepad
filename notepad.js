@@ -274,8 +274,6 @@ function addEventListenersToNote(note) {
     // event listener for mode switch
     var modes = [darkmode, lightmode, contrastmode1, contrastmode2];
 
-
-
     modeswitch.addEventListener("click", () => {
         var syncTheme = localStorage.getItem("syncTheme") || "false";
         console.log(`Sync Theme is set to: ${syncTheme}`);
