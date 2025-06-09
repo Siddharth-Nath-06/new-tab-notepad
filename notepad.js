@@ -449,7 +449,7 @@ function linkify(note) {
     const domainRegex = /\b(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/[a-zA-Z0-9\-_.\/:=+?|`~]*)?(?:#[a-zA-Z0-9\-_.\/:=+?|`~]*)?\b/g;
     content.matchAll(domainRegex).forEach((url) => {
         var href = url[0].startsWith('http') ? url[0] : 'http://' + url[0];
-        if (!linkified(content, url) && !inhref(content, url)) {
+        if (!linkified(content, url) && !inhref(content, url) && !insrc(content, url)) {
             if (!nolinkifycheck(content, url)) {
                 addlength = newcontent.length - content.length;
                 url.index += addlength;
@@ -510,6 +510,14 @@ function nolinkifycheck(content, url) {
 function inhref(content, url) {
     var b = false;
     if (content.substring(url.index - 6, url.index - 1) == 'href=') {
+        b = true;
+    }
+    return b;
+}
+
+function insrc(content, url){
+    var b = false;
+    if(content.substring(url.index - 5, url.index - 1) == 'src=') {
         b = true;
     }
     return b;
