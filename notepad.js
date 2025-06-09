@@ -449,7 +449,7 @@ function linkify(note) {
             if (!nolinkifycheck(content, url)) {
                 addlength = newcontent.length - content.length;
                 url.index += addlength;
-                newcontent = newcontent.substring(0, url.index) + `<a class="linkified" href="${href}" style="color:#0b91bd;">${url[0]}</a>` + newcontent.substring(url.index + url[0].length);
+                newcontent = newcontent.substring(0, url.index) + `<a class="linkified" href="${href}" style="color:#0b91bd; font-weight: bold;">${url[0]}</a>` + newcontent.substring(url.index + url[0].length);
             }
         }
 
