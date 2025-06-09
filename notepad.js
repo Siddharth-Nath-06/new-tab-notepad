@@ -385,8 +385,8 @@ function opacityup(note) {
 }
 
 function opacitydefault(note) {
-    note = note.parentNode;
-    if (note.getAttribute('data-theme') === "lightmode" || note.getAttribute('data-theme') === "contrastmode2") {
+    var noteparent = note.parentNode;
+    if (noteparent.getAttribute('data-theme') === "lightmode" || noteparent.getAttribute('data-theme') === "contrastmode2") {
         note.style.backgroundColor = `hsla(0, 0%, 85%, 0.8)`;
     } else {
         note.style.backgroundColor = `hsla(0,0%,10%, 0.8)`;
