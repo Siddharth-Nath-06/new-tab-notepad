@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Brave Notepad",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Adds a persistent notepad to your Brave new tab page",
     "author": "Sin Studios",
     "permissions": [
