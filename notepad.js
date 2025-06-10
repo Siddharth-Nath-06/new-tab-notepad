@@ -2,6 +2,7 @@ const notepadcontainer = document.getElementsByTagName('body')[0];
 const parentproto = document.createElement('div');
 var deletednotes = [];
 var notes = [];
+var previousContextTarget = '';
 parentproto.innerHTML =
     `<div id="notepad" style="height: 30em; width: 30vw; min-width: 20em; position: absolute; top: 0; left: 0; z-index: 10;">
     <div class="titlebar"
@@ -86,10 +87,9 @@ try {
             if (request.linkUrl.endsWith('/')) {
                 request.linkUrl = request.linkUrl.slice(0, -1);
             }
-            var link = document.querySelector(`a[href="${request.linkUrl}"]`);
-            console.log(link);
-            if (link) {
-                removelinkify(link);
+            var link = previousContextTarget.href.slice(0, -1);
+            if (link == request.linkUrl) {
+                removelinkify(previousContextTarget);
                 saveNote();
             } else {
                 console.warn('Link not found:', request.linkUrl);
@@ -236,6 +236,10 @@ function addEventListenersToNote(note) {
                 link.setAttribute('contenteditable', 'true');
             });
         }
+    });
+
+    document.addEventListener('contextmenu', (e) => {
+        previousContextTarget = e.target;
     });
 
 
@@ -465,6 +469,7 @@ function linkify(note) {
 
 //change links to span and remove href attribute and make them non-linkifiable by adding a class as identifier
 function removelinkify(link) {
+
     if (link.tagName === 'A') {
         var span = document.createElement('span');
         span.className = 'nolinkify';
