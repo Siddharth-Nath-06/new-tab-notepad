@@ -87,6 +87,7 @@ try {
                 request.linkUrl = request.linkUrl.slice(0, -1);
             }
             var link = document.querySelector(`a[href="${request.linkUrl}"]`);
+            console.log(link);
             if (link) {
                 removelinkify(link);
                 saveNote();
@@ -447,6 +448,7 @@ function linkify(note) {
     const domainRegex = /\b(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/[a-zA-Z0-9\-_.\/:=+?|`~]*)?(?:#[a-zA-Z0-9\-_.\/:=+?|`~]*)?\b/g;
     content.matchAll(domainRegex).forEach((url) => {
         var href = url[0].startsWith('http') ? url[0] : 'http://' + url[0];
+        href = href.toLowerCase();
         if (!linkified(content, url) && !inhref(content, url) && !insrc(content, url)) {
             if (!nolinkifycheck(content, url)) {
                 addlength = newcontent.length - content.length;
