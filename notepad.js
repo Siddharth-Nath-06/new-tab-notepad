@@ -410,7 +410,7 @@ function positionchanger(note) {
             if (notes[i] !== note) {
                 rect1 = { left: parseInt(note.style.left), top: parseInt(note.style.top) };
                 rect2 = { left: parseInt(notes[i].style.left), top: parseInt(notes[i].style.top) };
-                if ((Math.abs(rect1.left - rect2.left) < 10 ||
+                if ((Math.abs(rect1.left - rect2.left) < 10 &&
                     Math.abs(rect1.top - rect2.top) < 10)) {
                     overlap = true;
                     left = rect2.left + 20;
