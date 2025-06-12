@@ -87,8 +87,9 @@ try {
             if (request.linkUrl.endsWith('/')) {
                 request.linkUrl = request.linkUrl.slice(0, -1);
             }
-            var link = previousContextTarget.href.slice(0, -1);
-            if (link == request.linkUrl) {
+            var link = previousContextTarget.href;
+            link = (link.endsWith('/'))? link.slice(0, -1) : link;
+            if (link.toLowerCase() == request.linkUrl.toLowerCase()) {
                 removelinkify(previousContextTarget);
                 saveNote();
             } else {
@@ -344,7 +345,6 @@ function saveNote() {
         };
     });
     localStorage.setItem("savefile", JSON.stringify(savefile));
-    console.log('Notes saved to local storage');
 }
 
 //changes the alpha of background color of note element instead of opacity
@@ -453,7 +453,6 @@ function linkify(note) {
     const domainRegex = /\b(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/[a-zA-Z0-9\-_.\/:=+?|`~]*)?(?:#[a-zA-Z0-9\-_.\/:=+?|`~]*)?\b/g;
     content.matchAll(domainRegex).forEach((url) => {
         var href = url[0].startsWith('http') ? url[0] : 'http://' + url[0];
-        href = href.toLowerCase();
         if (!linkified(content, url) && !inhref(content, url) && !insrc(content, url)) {
             if (!nolinkifycheck(content, url)) {
                 addlength = newcontent.length - content.length;
@@ -468,7 +467,6 @@ function linkify(note) {
 
 //change links to span and remove href attribute and make them non-linkifiable by adding a class as identifier
 function removelinkify(link) {
-
     if (link.tagName === 'A') {
         var span = document.createElement('span');
         span.className = 'nolinkify';
