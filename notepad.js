@@ -89,7 +89,7 @@ try {
             }
             var link = previousContextTarget.href;
             link = (link.endsWith('/'))? link.slice(0, -1) : link;
-            if (link.toLowerCase() == request.linkUrl.toLowerCase()) {
+            if (link === request.linkUrl) {
                 removelinkify(previousContextTarget);
                 saveNote();
             } else {
