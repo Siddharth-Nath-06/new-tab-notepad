@@ -223,6 +223,10 @@ function addEventListenersToNote(note) {
         saveNote();
     });
 
+    notearea.addEventListener('beforeinput', (e)=>{
+        preventTrailingRemoveLinkify(e.getTargetRanges());
+    })
+
     // event listener to make link non contenteditable when ctrl is pressed
     document.addEventListener('keydown', (e) => {
         if (e.ctrlKey) {
@@ -665,4 +669,10 @@ function handleimg(note){
         e.style.height = 'auto';
         e.className = "handled";
     });
+}
+
+function preventTrailingRemoveLinkify(range){
+    if(range[0].startContainer.className === 'nolinkify'){
+        range[0].endContainer.className = '';
+    }
 }
