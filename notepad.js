@@ -360,7 +360,6 @@ function opacitydown(note) {
         alpha = 0.05;
     }
     var noteparent = note.parentNode;
-    console.log(noteparent.getAttribute('data-theme'));
     if (noteparent.getAttribute('data-theme') === "lightmode" || noteparent.getAttribute('data-theme') === "contrastmode2") {
         note.style.backgroundColor = `hsla(0, 0%, 85%, ${alpha})`;
     } else {
@@ -381,7 +380,6 @@ function opacityup(note) {
         alpha = 0.99;
     }
     var noteparent = note.parentNode;
-    console.log(noteparent.getAttribute('data-theme'));
     if (noteparent.getAttribute('data-theme') === "lightmode" || noteparent.getAttribute('data-theme') === "contrastmode2") {
         note.style.backgroundColor = `hsla(0, 0%, 85%, ${alpha})`;
     } else {
@@ -465,8 +463,6 @@ function linkify(note) {
         }
 
     });
-    var some = (newcontent === content) ? false : true;
-    console.log(`Linkify changed content:`, some);
     note.querySelector('.note').innerHTML = newcontent;
 }
 
@@ -578,7 +574,6 @@ function setmodeswitch(note, mode) {
 function switchmode(note, mode) {
     note.forEach((n) => {
         var opacity = n.getElementsByClassName("note")[0].style.backgroundColor.split(',')[3].split(')')[0] || "0.8";
-        console.log(opacity);
         n.setAttribute('data-theme', mode);
         var notearea = n.getElementsByClassName("note")[0];
         var titlebar = n.getElementsByClassName("titlebar")[0];
