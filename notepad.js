@@ -206,9 +206,7 @@ function addEventListenersToNote(note) {
     var contrastmode1 = note.getElementsByClassName("contrastmode1")[0];
     var contrastmode2 = note.getElementsByClassName("contrastmode2")[0];
 
-    [title, notearea].forEach((e) => {
-        e.addEventListener('input', saveNote);
-    });
+    title.addEventListener('input', saveNote);
 
     //connectLinkToTooltip(note);
 
@@ -216,6 +214,11 @@ function addEventListenersToNote(note) {
     notearea.addEventListener('focusout', () => {
         linkify(note);
         //connectLinkToTooltip(note);
+        saveNote();
+    });
+
+    notearea.addEventListener('input', ()=>{
+        handleimg(notearea);
         saveNote();
     });
 
@@ -659,3 +662,14 @@ function connectLinkToTooltip(note){
     });
 }
 */
+
+function handleimg(note){
+    var imgs = [...note.getElementsByTagName('img')];
+    var handledImgs = [...note.getElementsByClassName('handled')];
+    var toHandle = imgs.filter(element => !handledImgs.includes(element));
+    toHandle.forEach((e) => {
+        e.style.maxWidth = '100%';
+        e.style.height = 'auto';
+        e.className = "handled";
+    });
+}
