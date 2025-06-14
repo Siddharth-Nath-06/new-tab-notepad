@@ -1,3 +1,7 @@
+> retrieve minimized if saved as minimized
+
+> dynamically change the length of titletoellipsis according to titlebar size
+
 > Undo broken
 
 > force fontsize in notepad
@@ -7,8 +11,6 @@
 > Resize the notes
 
 > add reordering of z-index from note-to-note if possible
-
-> add minimize system if possible
 
 > change note to minimized if window small
 
