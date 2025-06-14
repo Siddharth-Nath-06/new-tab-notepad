@@ -10,7 +10,7 @@ parentproto.innerHTML =
         <span
             style="display:none; text-align: center; top:-2em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute;margin-left: 0.5em; padding: 0.5em"
             class="titletooltip">Click to edit title</span>
-        <div class="title" contenteditable="" spellcheck="false" style="margin-left: 0.5em; max-width: 23em; padding: 0em 0.5em;">Notepad</div>
+        <div class="title" contenteditable="" spellcheck="false" style="margin: 0em 0.5em; max-width: 23em; padding: 0em 0.5em;">Notepad</div>
         <span class="toolbar" style="position:relative; user-select:none; margin-left: auto; display: flex;">
             <span class="modeswitch" style="position: relative; padding-right: 0.75em; cursor: pointer;">
                 <span class="tooltiplightmode"
@@ -81,7 +81,7 @@ parentmin.innerHTML =
     `<div id="notepad"
     style="z-index:10; position:absolute; top:0px; left:0px; color:white; background-color: hsl(0, 0%, 10%); width: 12em; height: 2em; font-family: monospace; font-size: 1.2em;">
     <div class="titlebar" style="font-weight:bold; height:2em; display:flex; align-items: center; user-select:none;">
-        <div class="title" style="padding-left: 1em;">Notepad</div>
+        <div class="title" style="padding: 0em 1em;">Notepad</div>
         <span
             style="display:none; text-align: center; width:9em; right:-6em; top:-2.25em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em"
             class="maximizetooltip">Maximize Note</span>
