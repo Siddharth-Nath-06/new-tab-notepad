@@ -389,7 +389,7 @@ function opacitydown(note) {
         alpha = 0.05;
     }
     alpha = parseFloat(alpha) - 0.1;
-    if (alpha < 0.1) {
+    if (alpha <= 0.1) {
         alpha = 0.05;
     }
     var noteparent = note.parentNode;
@@ -409,7 +409,7 @@ function opacityup(note) {
         alpha = 0.99;
     }
     alpha = parseFloat(alpha) + 0.1;
-    if (alpha > 1) {
+    if (alpha >= 1) {
         alpha = 0.99;
     }
     var noteparent = note.parentNode;
@@ -604,7 +604,11 @@ function setmodeswitch(note, mode) {
 
 function switchmode(note, mode) {
     note.forEach((n) => {
-        var opacity = n.getElementsByClassName("note")[0].style.backgroundColor.split(',')[3].split(')')[0] || "0.8";
+        try{
+            var opacity = n.getElementsByClassName("note")[0].style.backgroundColor.split(',')[3].split(')')[0];
+        } catch {
+            var opacity = 0.8;
+        }
         n.setAttribute('data-theme', mode);
         var notearea = n.getElementsByClassName("note")[0];
         var titlebar = n.getElementsByClassName("titlebar")[0];
