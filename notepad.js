@@ -60,6 +60,11 @@ parentproto.innerHTML =
                 </svg>
             </span>
             <span
+                style="display:none; text-align: center; width:9em; right:-6em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em"
+                class="minimizetooltip">Minimize Note</span>
+            <span class="minimize"
+                style="position:relative; padding-right: 0.5em; cursor:pointer; user-select: none;">[—]</span>
+            <span
                 style="display:none; text-align: center; width:8em; right:-6em; top:-2.5em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em"
                 class="exittooltip">Delete Note</span>
             <span class="exit"
@@ -170,6 +175,7 @@ function addEventListenersToNote(note) {
     var darkmode = note.getElementsByClassName("darkmode")[0];
     var contrastmode1 = note.getElementsByClassName("contrastmode1")[0];
     var contrastmode2 = note.getElementsByClassName("contrastmode2")[0];
+    var minimize = note.getElementsByClassName("minimize")[0];
     var titlebar = note.getElementsByClassName("titlebar")[0];
 
     titlebar.addEventListener("mousedown", (e) => {
@@ -271,12 +277,13 @@ function addEventListenersToNote(note) {
         titleToEllipsis(note);
     });
 
-    [darkmode, lightmode, contrastmode1, contrastmode2, title, down, up, defaultOpacity, exit].forEach((e) => {
+    var tooltippers = [darkmode, lightmode, contrastmode1, contrastmode2, title, down, up, defaultOpacity, exit, minimize];
+    tooltippers.forEach((e) => {
         e.addEventListener("mouseover", () => {
             e.previousElementSibling.style.display = "block";
         });
     });
-    [darkmode, lightmode, contrastmode1, contrastmode2, title, down, up, defaultOpacity, exit].forEach((e) => {
+    tooltippers.forEach((e) => {
         e.addEventListener("mouseout", () => {
             e.previousElementSibling.style.display = "none";
         });
@@ -636,7 +643,6 @@ function undoDelete() {
     saveNote();
     titleToEllipsis(note);
 }
-
 
 function createLinkTooltip() {
     var tooltipParent = document.createElement('div');
