@@ -178,6 +178,9 @@ function loadnote() {
         switchmode([note], note.getAttribute('data-theme'));
         notes.push(note);
         createnotepad(note);
+        var minimized = savefile[i].minimized;
+        if (minimized)
+            minimizeNote(note);
     }
     console.log('Notes loaded from local storage');
 }
@@ -369,12 +372,14 @@ function saveNote() {
         };
         var opacity = note.querySelector('.note').style.backgroundColor.slice(-4, -1) || "0.8";
         var theme = note.getAttribute('data-theme') || "darkmode";
+        var minimized = !notepadcontainer.contains(note);
         savefile["notepad" + index] = {
             title: title,
             content: content,
             position: position,
             opacity: opacity,
-            theme: theme
+            theme: theme,
+            minimized: minimized
         };
     });
     localStorage.setItem("savefile", JSON.stringify(savefile));
@@ -755,6 +760,7 @@ function minimizeNote(note) {
     maximizeButton.addEventListener("click", () => {
         notepadcontainer.removeChild(notemin);
         notepadcontainer.appendChild(note);
+        saveNote();
     });
 
     notepadcontainer.removeChild(note);
@@ -799,4 +805,6 @@ function minimizeNote(note) {
             }, false);
         }
     }, true);
+
+    saveNote();
 }
