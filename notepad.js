@@ -125,7 +125,7 @@ try {
 
 window.onload = function () {
     notepadcontainer.style.overflow = "hidden";
-    //createLinkTooltip();
+    createLinkTooltip();
     loadnote();
 }
 
@@ -209,12 +209,12 @@ function addEventListenersToNote(note) {
 
     title.addEventListener('input', saveNote);
 
-    //connectLinkToTooltip(note);
+    connectLinkToTooltip(note);
 
     // event listener to linkify when focusout of note area
     notearea.addEventListener('focusout', () => {
         linkify(note);
-        //connectLinkToTooltip(note);
+        connectLinkToTooltip(notearea);
         saveNote();
     });
 
@@ -461,7 +461,7 @@ function linkify(note) {
             if (!nolinkifycheck(content, url)) {
                 addlength = newcontent.length - content.length;
                 url.index += addlength;
-                newcontent = newcontent.substring(0, url.index) + `<a class="linkified" href="${href}" title="Follow Link: Ctrl+Click" style="color:#0b91bd; font-weight: bold;">${url[0]}</a>` + newcontent.substring(url.index + url[0].length);
+                newcontent = newcontent.substring(0, url.index) + `<a class="linkified" href="${href}" style="color:#0b91bd; font-weight: bold;">${url[0]}</a>` + newcontent.substring(url.index + url[0].length);
             }
         }
 
@@ -639,10 +639,10 @@ function undoDelete() {
     titleToEllipsis(note);
 }
 
-/**
+
 function createLinkTooltip() {
     var tooltipParent = document.createElement('div');
-    tooltipParent.innerHTML = "<span contenteditable=\"false\" style=\"display:none; pointer-events: none; text-align: center; font-size:0.8em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: fixed; z-index: 11; width:14em; padding: 0.25em 0.25em 0.1em 0.25em;\" id=\"linktooltip\">Follow Link: Ctrl+Click</span>";
+    tooltipParent.innerHTML = `<span contenteditable="false" style="display:none; top:0px; left:0px; pointer-events: none; text-align: center; font-size:0.8em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; z-index: 11; width:11em; padding: 0em 0em 0.1em 0em;" id="linktooltip">Follow Link: Ctrl+Click</span>`;
     var tooltip = tooltipParent.firstChild.cloneNode(true);
     notepadcontainer.appendChild(tooltip);
 }
@@ -651,14 +651,30 @@ function connectLinkToTooltip(note){
     [...note.getElementsByClassName('linkified')].forEach((e)=>{
         var tooltip = document.getElementById("linktooltip");
         e.addEventListener("mouseover", (f)=>{
-            
+            let extraY = f.target.offsetHeight - f.offsetY;
+            tooltip.style.left = (f.x) + 'px';
+            tooltip.style.top = (f.y + extraY + 4) + 'px';
+            tooltip.style.display = 'block';
         });
         e.addEventListener("mouseout", ()=>{
             tooltip.style.display = "none";
         });
+        checkfordeleted(note, e, tooltip);
     });
 }
-*/
+
+function checkfordeleted(note, e, tooltip){
+    var mutObs = new MutationObserver((mutRec) => {
+        mutRec.forEach((record) => {
+            if([...record.removedNodes].includes(e))
+                tooltip.style.display = "none";
+        });
+    });
+    mutObs.observe(note, {
+        subtree: true,
+        childList: true
+    });
+}
 
 function handleimg(note){
     var imgs = [...note.getElementsByTagName('img')];
