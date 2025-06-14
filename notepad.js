@@ -308,8 +308,6 @@ function addEventListenersToNote(note) {
         e.addEventListener("mouseover", () => {
             e.previousElementSibling.style.display = "block";
         });
-    });
-    tooltippers.forEach((e) => {
         e.addEventListener("mouseout", () => {
             e.previousElementSibling.style.display = "none";
         });
