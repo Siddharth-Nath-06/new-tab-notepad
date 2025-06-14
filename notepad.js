@@ -76,6 +76,27 @@ parentproto.innerHTML =
 
 const prototype = parentproto.firstChild;
 
+const parentmin = document.createElement('div');
+parentmin.innerHTML =
+    `<div id="notepad"
+    style="z-index:10; position:absolute; top:0px; left:0px; color:white; background-color: hsl(0, 0%, 10%); width: 12em; height: 2em; font-family: monospace; font-size: 1.2em;">
+    <div class="titlebar" style="font-weight:bold; height:2em; display:flex; align-items: center; user-select:none;">
+        <div class="title" style="padding-left: 1em;">Notepad</div>
+        <span
+            style="display:none; text-align: center; width:9em; right:-6em; top:-2.25em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em"
+            class="maximizetooltip">Maximize Note</span>
+        <div class="maximize" style="margin:0.25em 0.5em 0em auto">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M15 9L21 3M21 3H15M21 3V9M9 9L3 3M3 3L3 9M3 3L9 3M9 15L3 21M3 21H9M3 21L3 15M15 15L21 21M21 21V15M21 21H15"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+    </div>
+</div>`
+
+const minimizedPrototype = parentmin.firstChild;
+
 try {
     chrome.runtime.onMessage.addListener((request) => {
         if (request.action === "addNote") {
@@ -259,6 +280,11 @@ function addEventListenersToNote(note) {
     up.addEventListener("click", () => { opacityup(note.getElementsByClassName("note")[0]) });
     defaultOpacity.addEventListener("click", () => { opacitydefault(note.getElementsByClassName("note")[0]) });
     exit.addEventListener("click", () => { removenote(note) }, true);
+    minimize.addEventListener("click", () => {
+        minimize.previousElementSibling.style.display = 'none';
+        minimizeNote(note);
+    }, true);
+
 
     ["focusin", "input"].forEach((e) => {
         title.addEventListener(e, () => {
@@ -695,4 +721,80 @@ function preventTrailingRemoveLinkify(range) {
     if (range[0].startContainer.className === 'nolinkify') {
         range[0].endContainer.className = '';
     }
+}
+
+function minimizeNote(note) {
+    saveNote();
+    var notemin = minimizedPrototype.cloneNode(true);
+
+    //set sttributes to notemin
+    notemin.id = note.id;
+    if (note.getAttribute("data-theme") == 'darkmode' || note.getAttribute("data-theme") == 'contrastmode2')
+        notemin.style.backgroundColor = 'black';
+    else
+        notemin.style.backgroundColor = 'white';
+    notemin.style.color = note.getElementsByClassName('titlebar')[0].style.color;
+    notemin.style.top = note.style.top;
+    notemin.style.left = note.style.left;
+
+    var title = notemin.getElementsByClassName('title')[0];
+    var titlebar = notemin.getElementsByClassName('titlebar')[0];
+
+    title.innerHTML = retrievetitle(note);
+    title.title = title.innerHTML;
+
+    var maximizeButton = notemin.getElementsByClassName('maximize')[0];
+    maximizeButton.addEventListener("mouseover", () => {
+        maximizeButton.previousElementSibling.style.display = "block";
+    });
+    maximizeButton.addEventListener("mouseout", () => {
+        maximizeButton.previousElementSibling.style.display = "none";
+    });
+    maximizeButton.addEventListener("click", () => {
+        notepadcontainer.removeChild(notemin);
+        notepadcontainer.appendChild(note);
+    });
+
+    notepadcontainer.removeChild(note);
+    notepadcontainer.appendChild(notemin);
+
+    if (title.scrollHeight > titlebar.clientHeight){
+        title.textContent = title.textContent.slice(0, 10) + '...';
+    }
+  
+    titlebar.addEventListener("mousedown", (e) => {
+        if (e.target.className === "titlebar" || e.target.className == 'title') {
+            console.log(1);
+            var offsetX = e.clientX - notemin.getBoundingClientRect().left;
+            var offsetY = e.clientY - notemin.getBoundingClientRect().top;
+
+            function onMouseMovemin(event) {
+                var X = event.clientX - offsetX;
+                var Y = event.clientY - offsetY;
+                //stop moving if exceeds window size
+                if (X < 0) X = 0;
+                if (Y < 0) Y = 0;
+
+                if (X + note.offsetWidth > window.innerWidth) {
+                    X = window.innerWidth - note.offsetWidth;
+                }
+                if (Y + note.offsetHeight > window.innerHeight) {
+                    Y = window.innerHeight - note.offsetHeight;
+                }
+
+                note.style.top = Y + 'px';
+                notemin.style.top = Y + 'px';
+                note.style.left = X + 'px';
+                notemin.style.left = X + 'px';
+            }
+
+            document.addEventListener('mousemove', onMouseMovemin);
+            document.addEventListener('mouseup', function () {
+                document.removeEventListener('mousemove', onMouseMovemin);
+                //save position of notepad in local storage
+                saveNote();
+                note.onmouseup = null;
+            }, false);
+        }
+    }, true);
 }

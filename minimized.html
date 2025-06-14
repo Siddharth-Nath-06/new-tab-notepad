@@ -1,0 +1,17 @@
+<!-- Reference structure for a minimized notepad panel -->
+<div id="notepad"
+    style="z-index:10; position:absolute; top:0px; left:0px; color:white; background-color: hsl(0, 0%, 10%); width: 12em; height: 2em; font-family: monospace; font-size: 1.2em;">
+    <div class="titlebar" style="font-weight:bold; height:2em; display:flex; align-items: center; user-select:none;">
+        <div class="title" style="padding-left: 1em;">Notepad</div>
+        <span
+            style="display:none; text-align: center; width:9em; right:-6em; top:-2.25em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; padding: 0.5em"
+            class="maximizetooltip">Maximize Note</span>
+        <div class="maximize" style="margin:0.25em 0.5em 0em auto">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M15 9L21 3M21 3H15M21 3V9M9 9L3 3M3 3L3 9M3 3L9 3M9 15L3 21M3 21H9M3 21L3 15M15 15L21 21M21 21V15M21 21H15"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+    </div>
+</div>
