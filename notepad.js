@@ -468,7 +468,7 @@ function titleToEllipsis(note) {
     var titlebar = note.getElementsByClassName("titlebar")[0];
     saveNote();
     if (title.scrollHeight > titlebar.clientHeight) {
-        title.textContent = title.textContent.slice(0, 37) + '...';
+        title.textContent = title.textContent.slice(0, 34) + '...';
     }
 }
 
