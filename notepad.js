@@ -88,7 +88,7 @@ try {
                 request.linkUrl = request.linkUrl.slice(0, -1);
             }
             var link = previousContextTarget.href;
-            link = (link.endsWith('/'))? link.slice(0, -1) : link;
+            link = (link.endsWith('/')) ? link.slice(0, -1) : link;
             if (link === request.linkUrl) {
                 removelinkify(previousContextTarget);
                 saveNote();
@@ -133,42 +133,6 @@ function createnotepad(note) {
     positionchanger(note);
     notepadcontainer.appendChild(note);
     titleToEllipsis(note);
-    console.log('Notepad created and appended');
-
-    var titlebar = note.getElementsByClassName("titlebar")[0];
-
-    titlebar.addEventListener("mousedown", (e) => {
-        if (e.target.className === "titlebar") {
-            var offsetX = e.clientX - note.getBoundingClientRect().left;
-            var offsetY = e.clientY - note.getBoundingClientRect().top;
-
-            function onMouseMove(event) {
-                var X = event.clientX - offsetX;
-                var Y = event.clientY - offsetY;
-                //stop moving if exceeds window size
-                if (X < 0) X = 0;
-                if (Y < 0) Y = 0;
-
-                if (X + note.offsetWidth > window.innerWidth) {
-                    X = window.innerWidth - note.offsetWidth;
-                }
-                if (Y + note.offsetHeight > window.innerHeight) {
-                    Y = window.innerHeight - note.offsetHeight;
-                }
-
-                note.style.top = Y + 'px';
-                note.style.left = X + 'px';
-            }
-
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', function () {
-                document.removeEventListener('mousemove', onMouseMove);
-                //save position of notepad in local storage
-                saveNote();
-                note.onmouseup = null;
-            }, false);
-        }
-    }, false);
     addEventListenersToNote(note);
 }
 
@@ -206,6 +170,40 @@ function addEventListenersToNote(note) {
     var darkmode = note.getElementsByClassName("darkmode")[0];
     var contrastmode1 = note.getElementsByClassName("contrastmode1")[0];
     var contrastmode2 = note.getElementsByClassName("contrastmode2")[0];
+    var titlebar = note.getElementsByClassName("titlebar")[0];
+
+    titlebar.addEventListener("mousedown", (e) => {
+        if (e.target.className === "titlebar") {
+            var offsetX = e.clientX - note.getBoundingClientRect().left;
+            var offsetY = e.clientY - note.getBoundingClientRect().top;
+
+            function onMouseMove(event) {
+                var X = event.clientX - offsetX;
+                var Y = event.clientY - offsetY;
+                //stop moving if exceeds window size
+                if (X < 0) X = 0;
+                if (Y < 0) Y = 0;
+
+                if (X + note.offsetWidth > window.innerWidth) {
+                    X = window.innerWidth - note.offsetWidth;
+                }
+                if (Y + note.offsetHeight > window.innerHeight) {
+                    Y = window.innerHeight - note.offsetHeight;
+                }
+
+                note.style.top = Y + 'px';
+                note.style.left = X + 'px';
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', function () {
+                document.removeEventListener('mousemove', onMouseMove);
+                //save position of notepad in local storage
+                saveNote();
+                note.onmouseup = null;
+            }, false);
+        }
+    }, false);
 
     title.addEventListener('input', saveNote);
 
@@ -218,12 +216,12 @@ function addEventListenersToNote(note) {
         saveNote();
     });
 
-    notearea.addEventListener('input', ()=>{
+    notearea.addEventListener('input', () => {
         handleimg(notearea);
         saveNote();
     });
 
-    notearea.addEventListener('beforeinput', (e)=>{
+    notearea.addEventListener('beforeinput', (e) => {
         preventTrailingRemoveLinkify(e.getTargetRanges());
     })
 
@@ -521,9 +519,9 @@ function inhref(content, url) {
     return b;
 }
 
-function insrc(content, url){
+function insrc(content, url) {
     var b = false;
-    if(content.substring(url.index - 5, url.index - 1) == 'src=') {
+    if (content.substring(url.index - 5, url.index - 1) == 'src=') {
         b = true;
     }
     return b;
@@ -647,26 +645,26 @@ function createLinkTooltip() {
     notepadcontainer.appendChild(tooltip);
 }
 
-function connectLinkToTooltip(note){
-    [...note.getElementsByClassName('linkified')].forEach((e)=>{
+function connectLinkToTooltip(note) {
+    [...note.getElementsByClassName('linkified')].forEach((e) => {
         var tooltip = document.getElementById("linktooltip");
-        e.addEventListener("mouseover", (f)=>{
+        e.addEventListener("mouseover", (f) => {
             let extraY = f.target.offsetHeight - f.offsetY;
             tooltip.style.left = (f.x) + 'px';
             tooltip.style.top = (f.y + extraY + 4) + 'px';
             tooltip.style.display = 'block';
         });
-        e.addEventListener("mouseout", ()=>{
+        e.addEventListener("mouseout", () => {
             tooltip.style.display = "none";
         });
         checkfordeleted(note, e, tooltip);
     });
 }
 
-function checkfordeleted(note, e, tooltip){
+function checkfordeleted(note, e, tooltip) {
     var mutObs = new MutationObserver((mutRec) => {
         mutRec.forEach((record) => {
-            if([...record.removedNodes].includes(e))
+            if ([...record.removedNodes].includes(e))
                 tooltip.style.display = "none";
         });
     });
@@ -676,7 +674,7 @@ function checkfordeleted(note, e, tooltip){
     });
 }
 
-function handleimg(note){
+function handleimg(note) {
     var imgs = [...note.getElementsByTagName('img')];
     var handledImgs = [...note.getElementsByClassName('handled')];
     var toHandle = imgs.filter(element => !handledImgs.includes(element));
@@ -687,8 +685,8 @@ function handleimg(note){
     });
 }
 
-function preventTrailingRemoveLinkify(range){
-    if(range[0].startContainer.className === 'nolinkify'){
+function preventTrailingRemoveLinkify(range) {
+    if (range[0].startContainer.className === 'nolinkify') {
         range[0].endContainer.className = '';
     }
 }
