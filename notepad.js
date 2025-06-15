@@ -486,6 +486,12 @@ function titleToEllipsis(note) {
     if (title.scrollHeight > titlebar.clientHeight || title.innerHTML.endsWith('...')) {
         title.textContent = retrievetitle(note).slice(0, titleMaxLetters) + '...';
     }
+    
+    setTitleMaxWidth(title, (titlebar.clientWidth - 123));
+}
+
+function setTitleMaxWidth(title, titleMaxWidth){
+    title.style.maxWidth = titleMaxWidth + 'px';
 }
 
 function retrievetitle(note) {
