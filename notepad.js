@@ -160,6 +160,7 @@ function createnotepad(note) {
     notepadcontainer.appendChild(note);
     titleToEllipsis(note);
     addEventListenersToNote(note);
+    checkTitlebarWidthChange(note);
 }
 
 function loadnote() {
@@ -463,12 +464,27 @@ function positionchanger(note) {
     }
 }
 
+function checkTitlebarWidthChange(note){
+    var titlebar = note.getElementsByClassName("titlebar")[0];
+    var resObs = new ResizeObserver((obs) => {
+        obs.forEach((e) => {
+            if(e.target === titlebar){
+                titleToEllipsis(note);
+            }
+        });
+    });
+    resObs.observe(titlebar, {
+        box: "content-box"
+    })
+}
+
 function titleToEllipsis(note) {
     var title = note.getElementsByClassName("title")[0];
     var titlebar = note.getElementsByClassName("titlebar")[0];
     saveNote();
-    if (title.scrollHeight > titlebar.clientHeight) {
-        title.textContent = title.textContent.slice(0, 34) + '...';
+    var titleMaxLetters = Math.floor((titlebar.clientWidth - 123)/7.054) - 3;
+    if (title.scrollHeight > titlebar.clientHeight || title.innerHTML.endsWith('...')) {
+        title.textContent = retrievetitle(note).slice(0, titleMaxLetters) + '...';
     }
 }
 
