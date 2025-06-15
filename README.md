@@ -11,8 +11,10 @@ Built for quick jotting, daily plans, or random thoughts — each note panel sta
 - 🧭 **Draggable Layout** — Move panels freely to organize your space.
 - 🎨 **Per-Note Themes** — Choose from 4 different themes for individual notes.
 - 💾 **Persistent Data** — Notes are saved locally and persist across sessions.
-- 🔒 **Privacy-First** — No internet access, no tracking, no sync — everything stays on your machine.
 - 🔗 **Clickable Links** — URLs in your notes are automatically clickable for easy idea gathering and quick access.
+- ➖ **Minimizable Notes** — Collapse notes when not in use to keep your new tab page tidy.
+- 🔒 **Privacy-First** — No internet access, no tracking, no sync — everything stays on your machine.
+
 
 ## Screenshots
 ![screenshot of the notepad extension in the Brave browser](images/image.png)
