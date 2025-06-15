@@ -322,7 +322,6 @@ function addEventListenersToNote(note) {
 
     modeswitch.addEventListener("click", () => {
         var syncTheme = localStorage.getItem("syncTheme") || "false";
-        console.log(`Sync Theme is set to: ${syncTheme}`);
         if (syncTheme === "false") {
             for (let i = 0; i < modes.length; i++) {
                 if (modes[i].style.display === "block") {
@@ -794,7 +793,6 @@ function minimizeNote(note) {
   
     titlebar.addEventListener("mousedown", (e) => {
         if (e.target.className === "titlebar" || e.target.className == 'title') {
-            console.log(1);
             var offsetX = e.clientX - notemin.getBoundingClientRect().left;
             var offsetY = e.clientY - notemin.getBoundingClientRect().top;
 
