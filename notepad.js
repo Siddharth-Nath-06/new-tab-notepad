@@ -757,10 +757,10 @@ function minimizeNote(note) {
 
     //set sttributes to notemin
     notemin.id = note.id;
-    if (note.getAttribute("data-theme") == 'darkmode' || note.getAttribute("data-theme") == 'contrastmode2')
-        notemin.style.backgroundColor = 'black';
-    else
+    if (note.getAttribute("data-theme") == 'lightmode' || note.getAttribute("data-theme") == 'contrastmode1')
         notemin.style.backgroundColor = 'white';
+    else
+        notemin.style.backgroundColor = 'black';
     notemin.style.color = note.getElementsByClassName('titlebar')[0].style.color;
     notemin.style.top = note.style.top;
     notemin.style.left = note.style.left;
