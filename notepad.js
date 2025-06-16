@@ -161,6 +161,7 @@ function createnotepad(note) {
     titleToEllipsis(note);
     addEventListenersToNote(note);
     checkTitlebarWidthChange(note);
+    fontStyleObserver(note);
 }
 
 function loadnote() {
@@ -827,4 +828,21 @@ function minimizeNote(note) {
     }, true);
 
     saveNote();
+}
+
+function fontStyleObserver(note){
+    var mutObs = new MutationObserver((mutRec) => {
+        mutRec.forEach((record) => {
+            record.addedNodes.forEach((newNode) => {
+                try{
+                newNode.style.fontSize = '1em';
+                newNode.style.fontFamily = 'monospace';
+                } catch{}
+            });
+        });
+    });
+    mutObs.observe(note, {
+        subtree: true,
+        childList: true
+    });
 }
