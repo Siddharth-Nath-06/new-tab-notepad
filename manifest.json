@@ -11,7 +11,7 @@
         "service_worker": "background.js"
     },
     "host_permissions": [
-       "chrome://newtab/*"
+        "chrome://newtab/*"
     ],
     "content_scripts": [
         {
@@ -20,6 +20,17 @@
             ],
             "js": ["notepad.js"],
             "run_at": "document_idle"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "prototype.html",
+                "minimized.html"
+            ],
+            "matches": [
+                "chrome://newtab/*"
+            ]
         }
     ],
     "icons": {
