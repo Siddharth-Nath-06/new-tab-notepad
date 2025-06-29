@@ -1,9 +1,9 @@
 # New Tab Notepad
-Persistent New Tab Notepad is a minimalist, distraction-free note-taking extension that adds persistent notepad panels in your browser's new tab page.
+New Tab Notepad is a minimalist, distraction-free note-taking extension that adds persistent notepad panels in your browser's new tab page.
 
 Built for quick jotting, daily plans, or random thoughts — each note panel stays exactly where you left it, even after you close your browser. Add, move, delete, or theme your notes with ease.
 
-> ⚠️ Currently only works in Brave and some other chromium-based browsers with an experimental flag enabled. &nbsp;**DOES NOT WORK IN GOOGLE CHROME.**
+> ⚠️ Currently only works in Chrome, Brave and some other chromium-based browsers with an experimental flag enabled.
 
 
 ## Features
