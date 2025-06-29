@@ -16,7 +16,8 @@
     "content_scripts": [
         {
             "matches": [
-                "chrome://newtab/*"
+                "chrome://newtab/*",
+                "chrome://*/*"
             ],
             "js": ["notepad.js"],
             "run_at": "document_idle"
@@ -29,7 +30,8 @@
                 "minimized.html"
             ],
             "matches": [
-                "chrome://newtab/*"
+                "chrome://newtab/*",
+                "chrome://*/*"
             ]
         }
     ],
