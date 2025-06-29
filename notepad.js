@@ -1,3 +1,4 @@
+// #region Global Variable Initialization
 const notepadcontainer = document.getElementsByTagName('body')[0];
 const parentproto = document.createElement('div');
 var deletednotes = [];
@@ -6,7 +7,10 @@ var previousContextTarget = '';
 var prototype;
 const parentmin = document.createElement('div');
 var minimizedPrototype;
+// #endregion Global Variable Initialization
 
+
+// Message Listeners for Background script for context menu buttons
 try {
     chrome.runtime.onMessage.addListener((request) => {
         if (request.action === "addNote") {
@@ -59,37 +63,41 @@ try {
     console.error('Error in message listener:', error);
 }
 
+// #region for fetching and initializing external html
 async function getFileFromExtension(path) {
-  const url = chrome.runtime.getURL(path);
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    const url = chrome.runtime.getURL(path);
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.text();
+        return data;
+    } catch (error) {
+        console.error('Error fetching file:', error);
+        return null;
     }
-    const data = await response.text();
-    return data;
-  } catch (error) {
-    console.error('Error fetching file:', error);
-    return null;
-  }
 }
 
-async function initProto(){
+async function initProto() {
     parentproto.innerHTML = await getFileFromExtension('./prototype.html');
     prototype = parentproto.children[0];
     parentmin.innerHTML = await getFileFromExtension('./minimized.html');
     minimizedPrototype = parentmin.children[0];
     return true;
 }
+// #endregion for fetching and initializing external html
+
 
 window.onload = function () {
     notepadcontainer.style.overflow = "hidden";
     createLinkTooltip();
-    initProto().then(()=>{
+    initProto().then(() => {
         loadnote();
     })
 }
 
+// #region for Basic Notepad Functions
 function createnotepad(note) {
     positionchanger(note);
     notepadcontainer.appendChild(note);
@@ -281,22 +289,6 @@ function addEventListenersToNote(note) {
     });
 }
 
-function removenote(note) {
-    notepadcontainer.removeChild(note);
-    var saved = JSON.parse(localStorage.getItem("savefile")) || {};
-    note.getElementsByClassName("title")[0].textContent = saved[note.id].title;
-    deletednotes.push(note);
-    notes = notes.filter(n => n !== note);
-    saveNote();
-    console.log('Note removed and saved');
-    // send message to background script to enable undo delete option
-    chrome.runtime.sendMessage({ action: "undoDelete", enabled: true }).then(() => {
-        console.log('Undo delete action enabled');
-    }).catch((error) => {
-        console.error('Error enabling undo delete action:', error);
-    });
-}
-
 function saveNote() {
     var savefile = {};
     notes.forEach((note, index) => {
@@ -320,8 +312,117 @@ function saveNote() {
     });
     localStorage.setItem("savefile", JSON.stringify(savefile));
 }
+// #endregion for Basic Notepad Functions
 
-//changes the alpha of background color of note element instead of opacity
+
+// #region Note State Changes and Deletion
+function removenote(note) {
+    notepadcontainer.removeChild(note);
+    var saved = JSON.parse(localStorage.getItem("savefile")) || {};
+    note.getElementsByClassName("title")[0].textContent = saved[note.id].title;
+    deletednotes.push(note);
+    notes = notes.filter(n => n !== note);
+    saveNote();
+    console.log('Note removed and saved');
+    // send message to background script to enable undo delete option
+    chrome.runtime.sendMessage({ action: "undoDelete", enabled: true }).then(() => {
+        console.log('Undo delete action enabled');
+    }).catch((error) => {
+        console.error('Error enabling undo delete action:', error);
+    });
+}
+
+function undoDelete() {
+    var note = deletednotes.pop();
+    note.getElementsByClassName("exittooltip")[0].style.display = "none";
+    note.id = "notepad" + notes.length;
+    notes.push(note);
+    notepadcontainer.appendChild(note);
+    saveNote();
+    titleToEllipsis(note);
+}
+
+function minimizeNote(note) {
+    saveNote();
+    var notemin = minimizedPrototype.cloneNode(true);
+
+    //set sttributes to notemin
+    notemin.id = note.id;
+    if (note.getAttribute("data-theme") == 'lightmode' || note.getAttribute("data-theme") == 'contrastmode1')
+        notemin.style.backgroundColor = 'white';
+    else
+        notemin.style.backgroundColor = 'black';
+    notemin.style.color = note.getElementsByClassName('titlebar')[0].style.color;
+    notemin.style.top = note.style.top;
+    notemin.style.left = note.style.left;
+
+    var title = notemin.getElementsByClassName('title')[0];
+    var titlebar = notemin.getElementsByClassName('titlebar')[0];
+
+    title.innerHTML = retrievetitle(note);
+    title.title = title.innerHTML;
+
+    var maximizeButton = notemin.getElementsByClassName('maximize')[0];
+    maximizeButton.addEventListener("mouseover", () => {
+        maximizeButton.previousElementSibling.style.display = "block";
+    });
+    maximizeButton.addEventListener("mouseout", () => {
+        maximizeButton.previousElementSibling.style.display = "none";
+    });
+    maximizeButton.addEventListener("click", () => {
+        notepadcontainer.removeChild(notemin);
+        notepadcontainer.appendChild(note);
+        saveNote();
+    });
+
+    notepadcontainer.removeChild(note);
+    notepadcontainer.appendChild(notemin);
+
+    if (title.scrollHeight > titlebar.clientHeight) {
+        title.textContent = title.textContent.slice(0, 10) + '...';
+    }
+
+    titlebar.addEventListener("mousedown", (e) => {
+        if (e.target.className === "titlebar" || e.target.className == 'title') {
+            var offsetX = e.clientX - notemin.getBoundingClientRect().left;
+            var offsetY = e.clientY - notemin.getBoundingClientRect().top;
+
+            function onMouseMovemin(event) {
+                var X = event.clientX - offsetX;
+                var Y = event.clientY - offsetY;
+                //stop moving if exceeds window size
+                if (X < 0) X = 0;
+                if (Y < 0) Y = 0;
+
+                if (X + note.offsetWidth > window.innerWidth) {
+                    X = window.innerWidth - note.offsetWidth;
+                }
+                if (Y + note.offsetHeight > window.innerHeight) {
+                    Y = window.innerHeight - note.offsetHeight;
+                }
+
+                note.style.top = Y + 'px';
+                notemin.style.top = Y + 'px';
+                note.style.left = X + 'px';
+                notemin.style.left = X + 'px';
+            }
+
+            document.addEventListener('mousemove', onMouseMovemin);
+            document.addEventListener('mouseup', function () {
+                document.removeEventListener('mousemove', onMouseMovemin);
+                //save position of notepad in local storage
+                saveNote();
+                note.onmouseup = null;
+            }, false);
+        }
+    }, true);
+
+    saveNote();
+}
+// #endregion Note State Changes and Deletion
+
+
+// #region Opacity Control
 function opacitydown(note) {
     var color = note.style.backgroundColor;
     try {
@@ -371,39 +472,15 @@ function opacitydefault(note) {
     }
     saveNote();
 }
+// #endregion for Opacity Control
 
-//if not position overlap, change position of note to avoid overlap
-function positionchanger(note) {
-    var overlap = true;
-    var left = parseInt(note.style.left) || 0;
-    var top = parseInt(note.style.top) || 0;
 
-    while (overlap) {
-        overlap = false;
-        let rect1, rect2;
-        for (var i = 0; i < notes.length; i++) {
-            if (notes[i] !== note) {
-                rect1 = { left: parseInt(note.style.left), top: parseInt(note.style.top) };
-                rect2 = { left: parseInt(notes[i].style.left), top: parseInt(notes[i].style.top) };
-                if ((Math.abs(rect1.left - rect2.left) < 10 &&
-                    Math.abs(rect1.top - rect2.top) < 10)) {
-                    overlap = true;
-                    left = rect2.left + 20;
-                    top = rect2.top + 20;
-                    note.style.left = left + 'px';
-                    note.style.top = top + 'px';
-                    overlap = false;
-                }
-            }
-        }
-    }
-}
-
-function checkTitlebarWidthChange(note){
+// #region for Title to Ellipsis
+function checkTitlebarWidthChange(note) {
     var titlebar = note.getElementsByClassName("titlebar")[0];
     var resObs = new ResizeObserver((obs) => {
         obs.forEach((e) => {
-            if(e.target === titlebar){
+            if (e.target === titlebar) {
                 titleToEllipsis(note);
             }
         });
@@ -417,15 +494,15 @@ function titleToEllipsis(note) {
     var title = note.getElementsByClassName("title")[0];
     var titlebar = note.getElementsByClassName("titlebar")[0];
     saveNote();
-    var titleMaxLetters = Math.floor((titlebar.clientWidth - 123)/7.054) - 3;
+    var titleMaxLetters = Math.floor((titlebar.clientWidth - 123) / 7.054) - 3;
     if (title.scrollHeight > titlebar.clientHeight || title.innerHTML.endsWith('...')) {
         title.textContent = retrievetitle(note).slice(0, titleMaxLetters) + '...';
     }
-    
+
     setTitleMaxWidth(title, (titlebar.clientWidth - 123));
 }
 
-function setTitleMaxWidth(title, titleMaxWidth){
+function setTitleMaxWidth(title, titleMaxWidth) {
     title.style.maxWidth = titleMaxWidth + 'px';
 }
 
@@ -440,7 +517,10 @@ function retrievetitle(note) {
         return note.querySelector('.title').textContent || "Notepad";
     }
 }
+// #endregion for Title to Ellipsis
 
+
+// #region for Linkify
 function linkify(note) {
     var content = note.querySelector('.note').innerHTML;
     var addlength;
@@ -520,6 +600,16 @@ function insrc(content, url) {
     return b;
 }
 
+function preventTrailingRemoveLinkify(range) {
+    if (range[0].startContainer.className === 'nolinkify') {
+        range[0].endContainer.className = '';
+    }
+}
+// #endregion for Linkify
+
+
+// #region for Theme Switch
+
 function switchModeButton(modeClass) {
     var mode = document.getElementsByClassName(modeClass);
     var modes = ["darkmode", "lightmode", "contrastmode1", "contrastmode2"];
@@ -566,7 +656,7 @@ function setmodeswitch(note, mode) {
 
 function switchmode(note, mode) {
     note.forEach((n) => {
-        try{
+        try {
             var opacity = n.getElementsByClassName("note")[0].style.backgroundColor.split(',')[3].split(')')[0];
         } catch {
             var opacity = 0.8;
@@ -623,17 +713,10 @@ function setnotebackground(note, opacity) {
         notearea.style.color = "black";
     }
 }
+// #endregion for Theme Switch
 
-function undoDelete() {
-    var note = deletednotes.pop();
-    note.getElementsByClassName("exittooltip")[0].style.display = "none";
-    note.id = "notepad" + notes.length;
-    notes.push(note);
-    notepadcontainer.appendChild(note);
-    saveNote();
-    titleToEllipsis(note);
-}
 
+// #region for Link Tooltip
 function createLinkTooltip() {
     var tooltipParent = document.createElement('div');
     tooltipParent.innerHTML = `<span contenteditable="false" style="display:none; top:0px; left:0px; pointer-events: none; text-align: center; font-size:0.8em; color: hsl(0,0%,30%); border: 0.05em solid gray; background-color:hsl(0,0%,80%); position: absolute; z-index: 11; width:11em; padding: 0em 0em 0.1em 0em;" id="linktooltip">Follow Link: Ctrl+Click</span>`;
@@ -669,7 +752,10 @@ function checkfordeleted(note, e, tooltip) {
         childList: true
     });
 }
+// #endregion for Link Tooltip
 
+
+// #region General Formatting
 function handleimg(note) {
     var imgs = [...note.getElementsByTagName('img')];
     var handledImgs = [...note.getElementsByClassName('handled')];
@@ -681,98 +767,14 @@ function handleimg(note) {
     });
 }
 
-function preventTrailingRemoveLinkify(range) {
-    if (range[0].startContainer.className === 'nolinkify') {
-        range[0].endContainer.className = '';
-    }
-}
-
-function minimizeNote(note) {
-    saveNote();
-    var notemin = minimizedPrototype.cloneNode(true);
-
-    //set sttributes to notemin
-    notemin.id = note.id;
-    if (note.getAttribute("data-theme") == 'lightmode' || note.getAttribute("data-theme") == 'contrastmode1')
-        notemin.style.backgroundColor = 'white';
-    else
-        notemin.style.backgroundColor = 'black';
-    notemin.style.color = note.getElementsByClassName('titlebar')[0].style.color;
-    notemin.style.top = note.style.top;
-    notemin.style.left = note.style.left;
-
-    var title = notemin.getElementsByClassName('title')[0];
-    var titlebar = notemin.getElementsByClassName('titlebar')[0];
-
-    title.innerHTML = retrievetitle(note);
-    title.title = title.innerHTML;
-
-    var maximizeButton = notemin.getElementsByClassName('maximize')[0];
-    maximizeButton.addEventListener("mouseover", () => {
-        maximizeButton.previousElementSibling.style.display = "block";
-    });
-    maximizeButton.addEventListener("mouseout", () => {
-        maximizeButton.previousElementSibling.style.display = "none";
-    });
-    maximizeButton.addEventListener("click", () => {
-        notepadcontainer.removeChild(notemin);
-        notepadcontainer.appendChild(note);
-        saveNote();
-    });
-
-    notepadcontainer.removeChild(note);
-    notepadcontainer.appendChild(notemin);
-
-    if (title.scrollHeight > titlebar.clientHeight){
-        title.textContent = title.textContent.slice(0, 10) + '...';
-    }
-  
-    titlebar.addEventListener("mousedown", (e) => {
-        if (e.target.className === "titlebar" || e.target.className == 'title') {
-            var offsetX = e.clientX - notemin.getBoundingClientRect().left;
-            var offsetY = e.clientY - notemin.getBoundingClientRect().top;
-
-            function onMouseMovemin(event) {
-                var X = event.clientX - offsetX;
-                var Y = event.clientY - offsetY;
-                //stop moving if exceeds window size
-                if (X < 0) X = 0;
-                if (Y < 0) Y = 0;
-
-                if (X + note.offsetWidth > window.innerWidth) {
-                    X = window.innerWidth - note.offsetWidth;
-                }
-                if (Y + note.offsetHeight > window.innerHeight) {
-                    Y = window.innerHeight - note.offsetHeight;
-                }
-
-                note.style.top = Y + 'px';
-                notemin.style.top = Y + 'px';
-                note.style.left = X + 'px';
-                notemin.style.left = X + 'px';
-            }
-
-            document.addEventListener('mousemove', onMouseMovemin);
-            document.addEventListener('mouseup', function () {
-                document.removeEventListener('mousemove', onMouseMovemin);
-                //save position of notepad in local storage
-                saveNote();
-                note.onmouseup = null;
-            }, false);
-        }
-    }, true);
-
-    saveNote();
-}
-
-function fontStyleObserver(note){
+function fontStyleObserver(note) {
     var mutObs = new MutationObserver((mutRec) => {
         mutRec.forEach((record) => {
             record.addedNodes.forEach((newNode) => {
-                try{
-                newNode.style.fontSize = '1em';
-                newNode.style.fontFamily = 'monospace';
-                } catch{}
+                try {
+                    newNode.style.fontSize = '1em';
+                    newNode.style.fontFamily = 'monospace';
+                } catch { }
             });
         });
     });
@@ -781,3 +783,31 @@ function fontStyleObserver(note){
         childList: true
     });
 }
+
+//if not position overlap, change position of note to avoid overlap
+function positionchanger(note) {
+    var overlap = true;
+    var left = parseInt(note.style.left) || 0;
+    var top = parseInt(note.style.top) || 0;
+
+    while (overlap) {
+        overlap = false;
+        let rect1, rect2;
+        for (var i = 0; i < notes.length; i++) {
+            if (notes[i] !== note) {
+                rect1 = { left: parseInt(note.style.left), top: parseInt(note.style.top) };
+                rect2 = { left: parseInt(notes[i].style.left), top: parseInt(notes[i].style.top) };
+                if ((Math.abs(rect1.left - rect2.left) < 10 &&
+                    Math.abs(rect1.top - rect2.top) < 10)) {
+                    overlap = true;
+                    left = rect2.left + 20;
+                    top = rect2.top + 20;
+                    note.style.left = left + 'px';
+                    note.style.top = top + 'px';
+                    overlap = false;
+                }
+            }
+        }
+    }
+}
+// #endregion General formatting
