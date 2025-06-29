@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "New Tab Notepad",
-    "version": "1.1.0",
-    "description": "Adds a persistent notepad to your Brave new tab page",
+    "version": "1.2.0",
+    "description": "Adds a persistent notepad to your new tab page",
     "author": "Sin Studios",
     "permissions": [
         "contextMenus"
