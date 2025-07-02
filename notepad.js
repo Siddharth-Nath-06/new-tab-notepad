@@ -285,6 +285,17 @@ function addEventListenersToNote(note) {
         }
         saveNote();
     });
+
+    note.addEventListener("keydown", (e) => {
+        if(e.code === "KeyA" && e.ctrlKey){
+            e.preventDefault();
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(notearea);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    });
 }
 
 function saveNote() {
