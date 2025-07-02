@@ -92,9 +92,7 @@ async function initProto() {
 window.onload = function () {
     notepadcontainer.style.overflow = "hidden";
     createLinkTooltip();
-    initProto().then(() => {
-        loadnote();
-    })
+    initProto().then(loadnote);
 }
 
 // #region for Basic Notepad Functions
