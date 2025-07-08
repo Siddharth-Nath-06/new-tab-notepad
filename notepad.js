@@ -7,6 +7,7 @@ var previousContextTarget = '';
 var prototype;
 const parentmin = document.createElement('div');
 var minimizedPrototype;
+var noteBeingLoaded = false;
 // #endregion Global Variable Initialization
 
 
@@ -58,6 +59,9 @@ try {
                 });
             }
         }
+        else if (request.action === "change") {
+            location.reload();
+        }
     });
 } catch (error) {
     console.error('Error in message listener:', error);
@@ -107,6 +111,7 @@ function createnotepad(note) {
 
 function loadnote() {
     var savefile = JSON.parse(localStorage.getItem("savefile")) || savefile;
+    noteBeingLoaded = true;
     for (i in savefile) {
         var note = prototype.cloneNode(true);
         note.id = i;
@@ -125,6 +130,7 @@ function loadnote() {
         if (minimized)
             minimizeNote(note);
     }
+    noteBeingLoaded = false;
     console.log('Notes loaded from local storage');
 }
 
@@ -319,6 +325,8 @@ function saveNote() {
             minimized: minimized
         };
     });
+    if(localStorage.getItem("savefile") !== JSON.stringify(savefile) && !noteBeingLoaded)
+        sendChangeMessage();
     localStorage.setItem("savefile", JSON.stringify(savefile));
 }
 // #endregion for Basic Notepad Functions
@@ -820,3 +828,10 @@ function positionchanger(note) {
     }
 }
 // #endregion General formatting
+
+
+function sendChangeMessage() {
+    chrome.runtime.sendMessage({
+        action: "changed"
+    });
+}

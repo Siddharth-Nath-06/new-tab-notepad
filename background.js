@@ -56,11 +56,22 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 // Listener for message from content script
-chrome.runtime.onMessage.addListener((request, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "undoDelete") {
         chrome.contextMenus.update("undodeleted", { enabled: request.enabled });
     } else if (request.action === "updateSyncTheme") {
         chrome.contextMenus.update("synctheme", { checked: request.checked });
+    } else if (request.action === 'changed') {
+        chrome.tabs
+            .query({
+                url: "chrome://*/*"
+            }).then((tabs) => {
+                tabs.forEach(element => {
+                    if (element.id !== sender.tab.id) {
+                        chrome.tabs.sendMessage(element.id, { action: "change" })
+                    }
+                });
+            });
     }
 });
 
