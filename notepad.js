@@ -119,6 +119,8 @@ function loadnote() {
         note.getElementsByClassName("note")[0].innerHTML = savefile[i].content || "";
         note.style.left = savefile[i].position.left || "0px";
         note.style.top = savefile[i].position.top || "0px";
+        note.style.width = savefile[i].size.width || "30vw";
+        note.style.height = savefile[i].size.height || "30em";
         note.setAttribute('data-theme', savefile[i].theme || "darkmode");
         var opacity = savefile[i].opacity;
         setnotebackground(note, opacity || "0.8");
@@ -150,6 +152,7 @@ function addEventListenersToNote(note) {
     var contrastmode2 = note.getElementsByClassName("contrastmode2")[0];
     var minimize = note.getElementsByClassName("minimize")[0];
     var titlebar = note.getElementsByClassName("titlebar")[0];
+    var resizer = note.getElementsByClassName("resizer")[0];
 
     titlebar.addEventListener("mousedown", (e) => {
         if (e.target.className === "titlebar") {
@@ -183,6 +186,26 @@ function addEventListenersToNote(note) {
             }, false);
         }
     }, false);
+
+    resizer.addEventListener("mousedown", (e) => {
+        var offsetX = e.clientX - note.offsetWidth;
+        var offsetY = e.clientY - note.offsetHeight;
+
+        function onMouseMove(event) {
+            var X = event.clientX - offsetX;
+            var Y = event.clientY - offsetY;
+
+            note.style.height = Y + 'px';
+            note.style.width = X + 'px';
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', function () {
+            document.removeEventListener('mousemove', onMouseMove);
+            saveNote();
+            note.onmouseup = null;
+        }, false);
+    }, true);
 
     title.addEventListener('input', saveNote);
 
@@ -293,7 +316,7 @@ function addEventListenersToNote(note) {
     });
 
     note.addEventListener("keydown", (e) => {
-        if(e.code === "KeyA" && e.ctrlKey){
+        if (e.code === "KeyA" && e.ctrlKey) {
             e.preventDefault();
             const selection = window.getSelection();
             const range = document.createRange();
@@ -313,6 +336,10 @@ function saveNote() {
             left: note.style.left || "0px",
             top: note.style.top || "0px"
         };
+        var size = {
+            width: note.style.width || "30vw",
+            height: note.style.height || "30em"
+        };
         var opacity = note.querySelector('.note').style.backgroundColor.slice(-4, -1) || "0.8";
         var theme = note.getAttribute('data-theme') || "darkmode";
         var minimized = !notepadcontainer.contains(note);
@@ -320,12 +347,13 @@ function saveNote() {
             title: title,
             content: content,
             position: position,
+            size: size,
             opacity: opacity,
             theme: theme,
             minimized: minimized
         };
     });
-    if(localStorage.getItem("savefile") !== JSON.stringify(savefile) && !noteBeingLoaded)
+    if (localStorage.getItem("savefile") !== JSON.stringify(savefile) && !noteBeingLoaded)
         chrome.runtime.sendMessage({ action: "changed" });
     localStorage.setItem("savefile", JSON.stringify(savefile));
 }
