@@ -326,7 +326,7 @@ function saveNote() {
         };
     });
     if(localStorage.getItem("savefile") !== JSON.stringify(savefile) && !noteBeingLoaded)
-        sendChangeMessage();
+        chrome.runtime.sendMessage({ action: "changed" });
     localStorage.setItem("savefile", JSON.stringify(savefile));
 }
 // #endregion for Basic Notepad Functions
@@ -828,10 +828,3 @@ function positionchanger(note) {
     }
 }
 // #endregion General formatting
-
-
-function sendChangeMessage() {
-    chrome.runtime.sendMessage({
-        action: "changed"
-    });
-}
