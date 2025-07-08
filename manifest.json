@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "New Tab Notepad",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "Adds a persistent notepad to your new tab page",
     "author": "Sin Studios",
     "permissions": [
