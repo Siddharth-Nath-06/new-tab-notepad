@@ -9,6 +9,7 @@ Built for quick jotting, daily plans, or random thoughts — each note panel sta
 ## Features
 - 🗂️ **Multiple Panels** — Add as many notes as you need.
 - 🧭 **Draggable Layout** — Move panels freely to organize your space.
+- ↔️ **Resizable Panels** — Resize the panels as you want.
 - 🎨 **Per-Note Themes** — Choose from 4 different themes for individual notes.
 - 💾 **Persistent Data** — Notes are saved locally and persist across sessions.
 - 🔗 **Clickable Links** — URLs in your notes are automatically clickable for easy idea gathering and quick access.
