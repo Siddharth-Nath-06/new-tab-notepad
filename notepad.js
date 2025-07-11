@@ -1,7 +1,7 @@
 // #region Global Variable Initialization
 const notepadcontainer = document.getElementsByTagName('body')[0];
 const parentproto = document.createElement('div');
-const lightToneHslLightness = '85%';
+const lightToneHslLightness = '95%';
 const darktoneHslLightness = '10%'
 var deletednotes = [];
 var notes = [];
