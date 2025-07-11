@@ -1,6 +1,8 @@
 // #region Global Variable Initialization
 const notepadcontainer = document.getElementsByTagName('body')[0];
 const parentproto = document.createElement('div');
+const lightToneHslLightness = '85%';
+const darktoneHslLightness = '10%'
 var deletednotes = [];
 var notes = [];
 var previousContextTarget = '';
@@ -122,8 +124,8 @@ function loadnote() {
         note.style.width = savefile[i].size.width || "30vw";
         note.style.height = savefile[i].size.height || "30em";
         note.setAttribute('data-theme', savefile[i].theme || "darkmode");
-        var opacity = savefile[i].opacity;
-        setnotebackground(note, opacity || "0.8");
+        var opacity = savefile[i].opacity || 0.8;
+        note.getElementsByClassName("note")[0].style.backgroundColor = `hsla(0,0%, ${darktoneHslLightness}, ${opacity})`;
         setmodeswitch(note, note.getAttribute('data-theme'));
         switchmode([note], note.getAttribute('data-theme'));
         notes.push(note);
@@ -481,9 +483,9 @@ function opacitydown(note) {
     }
     var noteparent = note.parentNode;
     if (noteparent.getAttribute('data-theme') === "lightmode" || noteparent.getAttribute('data-theme') === "contrastmode2") {
-        note.style.backgroundColor = `hsla(0, 0%, 85%, ${alpha})`;
+        note.style.backgroundColor = `hsla(0, 0%, ${lightToneHslLightness}, ${alpha})`;
     } else {
-        note.style.backgroundColor = `hsla(0,0%,10%, ${alpha})`;
+        note.style.backgroundColor = `hsla(0,0%, ${darktoneHslLightness}, ${alpha})`;
     }
     saveNote();
 }
@@ -501,9 +503,9 @@ function opacityup(note) {
     }
     var noteparent = note.parentNode;
     if (noteparent.getAttribute('data-theme') === "lightmode" || noteparent.getAttribute('data-theme') === "contrastmode2") {
-        note.style.backgroundColor = `hsla(0, 0%, 85%, ${alpha})`;
+        note.style.backgroundColor = `hsla(0, 0%, ${lightToneHslLightness}, ${alpha})`;
     } else {
-        note.style.backgroundColor = `hsla(0,0%,10%, ${alpha})`;
+        note.style.backgroundColor = `hsla(0,0%, ${darktoneHslLightness}, ${alpha})`;
     }
     saveNote();
 }
@@ -511,9 +513,9 @@ function opacityup(note) {
 function opacitydefault(note) {
     var noteparent = note.parentNode;
     if (noteparent.getAttribute('data-theme') === "lightmode" || noteparent.getAttribute('data-theme') === "contrastmode2") {
-        note.style.backgroundColor = `hsla(0, 0%, 85%, 0.8)`;
+        note.style.backgroundColor = `hsla(0, 0%, ${lightToneHslLightness}, 0.8)`;
     } else {
-        note.style.backgroundColor = `hsla(0,0%,10%, 0.8)`;
+        note.style.backgroundColor = `hsla(0,0%, ${darktoneHslLightness}, 0.8)`;
     }
     saveNote();
 }
@@ -709,54 +711,19 @@ function switchmode(note, mode) {
         n.setAttribute('data-theme', mode);
         var notearea = n.getElementsByClassName("note")[0];
         var titlebar = n.getElementsByClassName("titlebar")[0];
-        if (mode === "lightmode") {
-            titlebar.style.backgroundColor = "white";
-            titlebar.style.color = "black";
-            notearea.style.backgroundColor = `hsla(0, 0%, 85%, ${opacity})`;
-            notearea.style.color = "black";
-        } else if (mode === "darkmode") {
-            notearea.style.backgroundColor = `hsla(0, 0%, 10%, ${opacity})`;
-            notearea.style.color = "white";
-            titlebar.style.backgroundColor = "black";
-            titlebar.style.color = "white";
-        } else if (mode === "contrastmode1") {
-            titlebar.style.backgroundColor = "white";
-            titlebar.style.color = "black";
-            notearea.style.backgroundColor = `hsla(0, 0%, 10%, ${opacity})`;
-            notearea.style.color = "white";
-        } else if (mode === "contrastmode2") {
-            titlebar.style.backgroundColor = "black";
-            titlebar.style.color = "white";
-            notearea.style.backgroundColor = `hsla(0, 0%, 85%, ${opacity})`;
-            notearea.style.color = "black";
-        }
-    });
-}
 
-function setnotebackground(note, opacity) {
-    var notearea = note.getElementsByClassName("note")[0];
-    var titlebar = note.getElementsByClassName("titlebar")[0];
-    if (note.getAttribute('data-theme') === "lightmode") {
-        titlebar.style.backgroundColor = "white";
-        titlebar.style.color = "black";
-        notearea.style.backgroundColor = `hsla(0, 0%, 85%, ${opacity})`;
-        notearea.style.color = "black";
-    } else if (note.getAttribute('data-theme') === "darkmode") {
-        notearea.style.backgroundColor = `hsla(0, 0%, 10%, ${opacity})`;
-        notearea.style.color = "white";
-        titlebar.style.backgroundColor = "black";
-        titlebar.style.color = "white";
-    } else if (note.getAttribute('data-theme') === "contrastmode1") {
-        titlebar.style.backgroundColor = "white";
-        titlebar.style.color = "black";
-        notearea.style.backgroundColor = `hsla(0, 0%, 10%, ${opacity})`;
-        notearea.style.color = "white";
-    } else if (note.getAttribute('data-theme') === "contrastmode2") {
-        titlebar.style.backgroundColor = "black";
-        titlebar.style.color = "white";
-        notearea.style.backgroundColor = `hsla(0, 0%, 85%, ${opacity})`;
-        notearea.style.color = "black";
-    }
+        var titlebackcolor = (mode === 'lightmode' || mode === "contrastmode1") ? 'white' : 'black';
+        var titlecolor = !(mode === 'lightmode' || mode === "contrastmode1") ? 'white' : 'black';
+
+        var backgroundBackcolor = (mode === 'lightmode' || mode === "contrastmode2") ? lightToneHslLightness : darktoneHslLightness;
+        var backgroundcolor = (mode === 'lightmode' || mode === 'contrastmode2') ? 'black' : 'white';
+
+        titlebar.style.backgroundColor = titlebackcolor;
+        titlebar.style.color = titlecolor;
+
+        notearea.style.backgroundColor = `hsla(0, 0%, ${backgroundBackcolor}, ${opacity})`;
+        notearea.style.color = backgroundcolor;
+    });
 }
 // #endregion for Theme Switch
 
