@@ -30,7 +30,7 @@ To Install and Use :
 6. **That’s it!** Enjoy using your new Notepad — explore, experiment, and make it your own!
 
 ## Version
-Version of *main* in repository: v1.3.0
+Version of *main* in repository: v1.3.1
 </br>
 For **Released** versions, see <a href="https://github.com/Siddharth-Nath-06/new-tab-notepad/releases">Releases</a>.
 
