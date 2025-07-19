@@ -330,34 +330,36 @@ function addEventListenersToNote(note) {
 }
 
 function saveNote() {
-    var savefile = {};
-    notes.forEach((note, index) => {
-        var title = retrievetitle(note);
-        var content = note.querySelector('.note').innerHTML || "";
-        var position = {
-            left: note.style.left || "0px",
-            top: note.style.top || "0px"
-        };
-        var size = {
-            width: note.style.width || "30vw",
-            height: note.style.height || "30em"
-        };
-        var opacity = note.querySelector('.note').style.backgroundColor.slice(-4, -1) || "0.8";
-        var theme = note.getAttribute('data-theme') || "darkmode";
-        var minimized = !notepadcontainer.contains(note);
-        savefile["notepad" + index] = {
-            title: title,
-            content: content,
-            position: position,
-            size: size,
-            opacity: opacity,
-            theme: theme,
-            minimized: minimized
-        };
-    });
-    if (localStorage.getItem("savefile") !== JSON.stringify(savefile) && !noteBeingLoaded)
-        chrome.runtime.sendMessage({ action: "changed" });
-    localStorage.setItem("savefile", JSON.stringify(savefile));
+    if (!noteBeingLoaded) {
+        var savefile = {};
+        notes.forEach((note, index) => {
+            var title = retrievetitle(note);
+            var content = note.querySelector('.note').innerHTML || "";
+            var position = {
+                left: note.style.left || "0px",
+                top: note.style.top || "0px"
+            };
+            var size = {
+                width: note.style.width || "30vw",
+                height: note.style.height || "30em"
+            };
+            var opacity = note.querySelector('.note').style.backgroundColor.slice(-4, -1) || "0.8";
+            var theme = note.getAttribute('data-theme') || "darkmode";
+            var minimized = !notepadcontainer.contains(note);
+            savefile["notepad" + index] = {
+                title: title,
+                content: content,
+                position: position,
+                size: size,
+                opacity: opacity,
+                theme: theme,
+                minimized: minimized
+            };
+        });
+        if (localStorage.getItem("savefile") !== JSON.stringify(savefile))
+            chrome.runtime.sendMessage({ action: "changed" });
+        localStorage.setItem("savefile", JSON.stringify(savefile));
+    }
 }
 // #endregion for Basic Notepad Functions
 
