@@ -324,7 +324,7 @@ function addEventListenersToNote(note) {
         saveNote();
     });
 
-    note.addEventListener("keydown", (e) => {
+    notearea.addEventListener("keydown", (e) => {
         if (e.code === "KeyA" && e.ctrlKey) {
             e.preventDefault();
             const selection = window.getSelection();
