@@ -211,6 +211,13 @@ function addEventListenersToNote(note) {
 
     title.addEventListener('input', saveNote);
 
+    title.addEventListener('beforeinput', (e) => {
+        if(e.inputType === 'insertParagraph'){
+            e.preventDefault();
+            notearea.focus();
+        }
+    });
+
     connectLinkToTooltip(note);
 
     // event listener to linkify when focusout of note area
