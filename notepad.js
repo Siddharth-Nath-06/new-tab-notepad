@@ -221,6 +221,7 @@ function addEventListenersToNote(note) {
             range.collapse();
             selection.removeAllRanges();
             selection.addRange(range);
+            notearea.scrollTop = notearea.scrollHeight;
         }
     });
 
