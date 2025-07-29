@@ -214,7 +214,13 @@ function addEventListenersToNote(note) {
     title.addEventListener('beforeinput', (e) => {
         if(e.inputType === 'insertParagraph'){
             e.preventDefault();
-            notearea.focus();
+            notearea.focus();            
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.setEndAfter(notearea.lastChild);
+            range.collapse();
+            selection.removeAllRanges();
+            selection.addRange(range);
         }
     });
 
