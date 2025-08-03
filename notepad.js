@@ -175,8 +175,11 @@ function addEventListenersToNote(note) {
                     Y = window.innerHeight - note.offsetHeight;
                 }
 
-                note.style.top = Y + 'px';
-                note.style.left = X + 'px';
+                X = (X/window.innerWidth)*100;
+                Y = (Y/window.innerHeight)*100;
+
+                note.style.top = Y + '%';
+                note.style.left = X + '%';
             }
 
             document.addEventListener('mousemove', onMouseMove);
@@ -464,10 +467,13 @@ function minimizeNote(note) {
                     Y = window.innerHeight - note.offsetHeight;
                 }
 
-                note.style.top = Y + 'px';
-                notemin.style.top = Y + 'px';
-                note.style.left = X + 'px';
-                notemin.style.left = X + 'px';
+                X = (X/window.innerWidth) * 100;
+                Y = (Y/window.innerHeight) * 100;
+
+                note.style.top = Y + '%';
+                notemin.style.top = Y + '%';
+                note.style.left = X + '%';
+                notemin.style.left = X + '%';
             }
 
             document.addEventListener('mousemove', onMouseMovemin);
