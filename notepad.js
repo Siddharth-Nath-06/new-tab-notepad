@@ -818,7 +818,8 @@ function fontStyleObserver(note) {
     });
 }
 
-//if not position overlap, change position of note to avoid overlap
+//if position overlap, change position of note to avoid overlap for newly created notes only
+//newly created checked cuz % not in new notes, only px, but moved notes in %
 function positionchanger(note) {
     var overlap = true;
     var left = parseInt(note.style.left) || 0;
@@ -828,7 +829,7 @@ function positionchanger(note) {
         overlap = false;
         let rect1, rect2;
         for (var i = 0; i < notes.length; i++) {
-            if (notes[i] !== note) {
+            if (notes[i] !== note && !(note.style.left).endsWith("%")) {
                 rect1 = { left: parseInt(note.style.left), top: parseInt(note.style.top) };
                 rect2 = { left: parseInt(notes[i].style.left), top: parseInt(notes[i].style.top) };
                 if ((Math.abs(rect1.left - rect2.left) < 10 &&
