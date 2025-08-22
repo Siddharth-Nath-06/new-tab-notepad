@@ -3,7 +3,6 @@ const notepadcontainer = document.getElementsByTagName('body')[0];
 const parentproto = document.createElement('div');
 const lightToneHslLightness = '95%';
 const darktoneHslLightness = '10%'
-var deletednotes = [];
 var notes = [];
 var previousContextTarget = '';
 var prototype;
@@ -49,16 +48,10 @@ try {
             }
         }
         else if (request.action === "undoDelete") {
-            if (deletednotes.length > 0) {
-                undoDelete();
+            if (request.note) {
+                undoDelete(request.note);
             } else {
                 console.warn('No deleted notes to restore');
-            }
-            if (deletednotes.length === 0) {
-                // send message to background script to disable undo delete option
-                chrome.runtime.sendMessage({ action: "undoDelete", enabled: false }).catch((error) => {
-                    console.error('Error disabling undo delete action:', error);
-                });
             }
         }
         else if (request.action === "change") {
@@ -386,26 +379,25 @@ function removenote(note) {
     notepadcontainer.removeChild(note);
     var saved = JSON.parse(localStorage.getItem("savefile")) || {};
     note.getElementsByClassName("title")[0].textContent = saved[note.id].title;
-    deletednotes.push(note);
     notes = notes.filter(n => n !== note);
     saveNote();
     console.log('Note removed and saved');
     // send message to background script to enable undo delete option
-    chrome.runtime.sendMessage({ action: "undoDelete", enabled: true }).then(() => {
+    chrome.runtime.sendMessage({ action: "undoDelete", enabled: true, note: note.outerHTML }).then(() => {
         console.log('Undo delete action enabled');
     }).catch((error) => {
         console.error('Error enabling undo delete action:', error);
     });
 }
 
-function undoDelete() {
-    var note = deletednotes.pop();
+function undoDelete(note) {
+    var noteparent = document.createElement('div');
+    noteparent.innerHTML = note;
+    note = noteparent.children[0];
     note.getElementsByClassName("exittooltip")[0].style.display = "none";
     note.id = "notepad" + notes.length;
     notes.push(note);
-    notepadcontainer.appendChild(note);
-    saveNote();
-    titleToEllipsis(note);
+    createnotepad(note);
 }
 
 function minimizeNote(note) {

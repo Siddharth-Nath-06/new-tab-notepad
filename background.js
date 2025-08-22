@@ -1,3 +1,6 @@
+// Global deleted notes
+const deletednotes = [];
+
 // Event listener for clicks on context menu
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "addnote") {
@@ -46,7 +49,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
                 active: true,
                 currentWindow: true
             }).then((tabs) => {
-                chrome.tabs.sendMessage(tabs[0].id, { action: "undoDelete" }).then(() => {
+                let lastnote = deletednotes.pop();
+                chrome.tabs.sendMessage(tabs[0].id, { action: "undoDelete", note: lastnote}).then(() => {
+                    if(deletednotes.length == 0)
+                            chrome.contextMenus.update("undodeleted", { enabled: false });
                     console.log('Undo delete action triggered');
                 }).catch((error) => {
                     console.error('Error undoing delete:', error);
@@ -59,6 +65,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "undoDelete") {
         chrome.contextMenus.update("undodeleted", { enabled: request.enabled });
+        deletednotes.push(request.note);
     } else if (request.action === "updateSyncTheme") {
         chrome.contextMenus.update("synctheme", { checked: request.checked });
     } else if (request.action === 'changed') {
