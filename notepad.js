@@ -208,7 +208,7 @@ function addEventListenersToNote(note) {
     title.addEventListener('input', saveNote);
 
     title.addEventListener('beforeinput', (e) => {
-        if(e.inputType === 'insertParagraph'){
+        if(e.inputType === 'insertParagraph' || e.inputType === 'insertLineBreak'){
             e.preventDefault();
             notearea.focus();            
             const selection = window.getSelection();
