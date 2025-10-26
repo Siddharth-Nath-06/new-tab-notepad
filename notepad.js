@@ -554,8 +554,13 @@ function checkTitlebarWidthChange(note) {
 function titleToEllipsis(note) {
     var title = note.getElementsByClassName("title")[0];
     var titlebar = note.getElementsByClassName("titlebar")[0];
+    var fontWidth = window.getComputedStyle(title).fontSize.slice(0,-2) / 1.5516;
+    var toolbar = note.getElementsByClassName("toolbar")[0];
+    var toolbarWidth = window.getComputedStyle(toolbar).width.slice(0,-2);
+    var titlemargin = Number(window.getComputedStyle(title).marginLeft.slice(0,-2)) + Number(window.getComputedStyle(title).marginRight.slice(0,-2));
+    var titlepadding = Number(window.getComputedStyle(title).paddingRight.slice(0,-2)) + Number(window.getComputedStyle(title).paddingLeft.slice(0,-2));
     saveNote();
-    var titleMaxLetters = Math.floor((titlebar.clientWidth - 123) / 7.054) - 3;
+    var titleMaxLetters = Math.floor((titlebar.clientWidth - toolbarWidth - titlemargin - titlepadding) / fontWidth) - 3;
     if (title.scrollHeight > titlebar.clientHeight || title.innerHTML.endsWith('...')) {
         title.textContent = retrievetitle(note).slice(0, titleMaxLetters) + '...';
     }
