@@ -25,7 +25,7 @@ To Install and Use :
 1. Enable the <ins>#extensions-on-chrome-urls</ins> &nbsp;in the **chrome://flags** page in a chromium browser.
 2. Go to **chrome://extensions** page and enable the *Developer mode* toggle in the upper-right corner (or wherever it may be in the specific chromium browser).
 3. Click the *Load Unpacked* button that appears and select the folder for the extension (either cloned from GitHub, or downloaded from Releases).
-4. The extension should appear named as **Brave Notepad**. Make sure it is enabled.
+4. The extension should appear named as **New Tab Notepad**. Make sure it is enabled.
 5. It is recommended to pin the icon from the extensions menu in your browser for a smooth experience. On clicking the icon when in a New Tab page, you can find the options to Add Notes, Sync Themes, etc.
 6. **That’s it!** Enjoy using your new Notepad — explore, experiment, and make it your own!
 
